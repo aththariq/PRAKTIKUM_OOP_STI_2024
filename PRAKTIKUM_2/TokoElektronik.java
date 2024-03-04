@@ -19,7 +19,9 @@ public class TokoElektronik {
                 int storageCapacity = input.nextInt();
                 input.nextLine();
                 int batteryLife = input.nextInt();
-                input.nextLine();
+                if (i < jumlahBarang - 1) {
+                    input.nextLine();
+                }
                 Smartphone smartphone = new Smartphone(brand, model, storageCapacity, batteryLife);
                 price = smartphone.calculatePrice();
                 totalPrice += price;
