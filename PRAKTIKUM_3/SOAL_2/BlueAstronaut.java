@@ -36,7 +36,7 @@ public class BlueAstronaut extends Player implements Crewmate {
         if (!isFrozen()) {
             Player highestSus = null;
             for (Player p : getPlayers()) {
-                if (p instanceof Impostor) {
+                if (!(p instanceof Impostor) && !p.isFrozen()) {
                     if (highestSus == null || p.compareTo(highestSus) > 0) {
                         highestSus = p;
                     }
@@ -45,8 +45,8 @@ public class BlueAstronaut extends Player implements Crewmate {
             if (highestSus != null) {
                 highestSus.setFrozen(true);
             }
+            gameOver();
         }
-        
     }
 
     /*
