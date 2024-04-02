@@ -23,33 +23,37 @@ public class Umandana {
             char currentChar = words.charAt(i);
             char nextChar = (i < words.length() - 1) ? words.charAt(i + 1) : '\0';
             
-            if (currentChar == 'a') {
-                bahasa.append("aiden");
-            } else if (currentChar == 'i') {
-                bahasa.append("ipri");
-            } else if (currentChar == 'u') {
-                bahasa.append("upru");
-            } else if (currentChar == 'e') {
-                bahasa.append("epre");
-            } else if (currentChar == 'o') {
-                bahasa.append("opro");
-            } else if (currentChar == 'n' && nextChar == 'g'){
-                if (i == words.length() - 2 || (!isVowel(words.charAt(i + 2)) || words.charAt(i + 2) == ' ')){
-                    bahasa.append("strengen");
+            if (Character.isDigit(currentChar)){
+                bahasa.append(currentChar);
+            }else {
+                if (currentChar == 'a') {
+                    bahasa.append("aiden");
+                } else if (currentChar == 'i') {
+                    bahasa.append("ipri");
+                } else if (currentChar == 'u') {
+                    bahasa.append("upru");
+                } else if (currentChar == 'e') {
+                    bahasa.append("epre");
+                } else if (currentChar == 'o') {
+                    bahasa.append("opro");
+                } else if (currentChar == 'n' && nextChar == 'g'){
+                    if (i == words.length() - 2 || (!isVowel(words.charAt(i + 2)) || words.charAt(i + 2) == ' ')){
+                        bahasa.append("strengen");
+                        i++;
+                    }
+                    else {
+                        bahasa.append("ng");
+                        i++; 
+                    }
+                } else if (currentChar == 'n' && nextChar == 'y' && (i == words.length() - 2 || isVowel(words.charAt(i + 2)))) {
+                    bahasa.append("ny");
                     i++;
+                } else if (currentChar != ' ' && currentChar != 'a' && currentChar != 'i' && currentChar != 'u' && currentChar != 'e' && currentChar != 'o' && !isVowel(nextChar)) {
+                    bahasa.append(currentChar).append("es");
                 }
                 else {
-                    bahasa.append("ng");
-                    i++; 
+                    bahasa.append(currentChar);
                 }
-            } else if (currentChar == 'n' && nextChar == 'y' && (i == words.length() - 2 || isVowel(words.charAt(i + 2)))) {
-                bahasa.append("ny");
-                i++;
-            } else if (currentChar != ' ' && currentChar != 'a' && currentChar != 'i' && currentChar != 'u' && currentChar != 'e' && currentChar != 'o' && !isVowel(nextChar)) {
-                bahasa.append(currentChar).append("es");
-            }
-            else {
-                bahasa.append(currentChar);
             }
         }
         return bahasa.toString();
