@@ -15,22 +15,29 @@ public class Ucrypt {
      * @return kata yang telah dihash
      */
     public static StringBuilder hash(String word) {
-        String umandanaWord = Umandana.toUmandana(word);
-        StringBuilder hashed = new StringBuilder();
-        int vowelCount = 0;
-        for (int i = 0; i < umandanaWord.length(); i++) {
-            char currentChar = umandanaWord.charAt(i);
-            if (currentChar == 'a' || currentChar == 'i' || currentChar == 'u' || currentChar == 'e' || currentChar == 'o') {
-                vowelCount++;
-            }
-            if (Character.isDigit(currentChar)) {
-                char newChar = (char) ('a' + (currentChar - '0' + vowelCount) % 26);
-                hashed.append(newChar);
-            } else {
-                hashed.append(currentChar);
+        String kata = Umandana.toUmandana(word);
+        StringBuilder baru = new StringBuilder(kata);
+
+        int countVokal = 0;
+        for (int i = 0; i < word.length(); i++) {
+            char ch = Character.toLowerCase(word.charAt(i));
+            if (ch == 'a' || ch == 'i' || ch == 'u' || ch == 'e' || ch == 'o') {
+                countVokal++;
+            } else if (ch == ' ') {
+                break;
             }
         }
-        return hashed;
+        for (int j = 0; j < baru.length(); j++) {
+            char ch = baru.charAt(j);
+            if (Character.isDigit(ch)) {
+                baru.setCharAt(j, (char) (((ch - '0') + countVokal) % 26 + 'a'));
+            } else if (Character.isLowerCase(ch)) {
+                baru.setCharAt(j, (char) ((ch - 'a' + countVokal) % 26 + 'a'));
+            } else {
+                baru.setCharAt(j, ch);
+            }
+        }
+        return baru;
     }
 
     /**
