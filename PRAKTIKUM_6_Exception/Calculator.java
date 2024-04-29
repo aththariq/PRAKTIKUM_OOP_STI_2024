@@ -28,7 +28,7 @@ public class Calculator {
                 throw new InvalidOperationException("Invalid Operation: " + operation);
     }
 }
-
+}
 /**
  * Implementasikan:
  * 1. Calculator Exception
@@ -53,5 +53,4 @@ class InvalidDivisionException extends CalculatorException {
     public InvalidDivisionException(String message) {
         super(message);
     }
-}
 }
