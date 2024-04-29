@@ -55,14 +55,12 @@ public class Cart {
      */
     public void removeItem(String name) throws Exception {
         if (items.isEmpty()) throw new Exception("Tidak ada barang di dalam keranjang");
-        boolean found = false;
+        List<Item> newItems = new ArrayList<Item>();
         for (Item item : items) {
-            if (item.getName().equals(name)) {
-                items.remove(item);
-                found = true;
-            }
+            if (!item.getName().equals(name)) newItems.add(item);
         }
-        if (!found) throw new Exception("Barang tidak ditemukan di dalam keranjang");
+        if (newItems.size() == items.size()) throw new Exception("Barang tidak ditemukan di dalam keranjang");
+        items = newItems;
     }
 
     /**
