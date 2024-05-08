@@ -2,6 +2,7 @@
  * Jangan lupa tambahkan kata kunci yang dibutuhkan
  */ 
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class ArraySum {
     // nWorkers menyatakan jumlah maksimum threads yang tersedia
@@ -27,42 +28,32 @@ public class ArraySum {
      * method sum akan membuat sejumlah thread dan memetakan array masukan secara merata ke semua threads yang dapat dibuat
      */
     public int sum() throws InterruptedException {
-        int[] sum = {0};
         int n = arr.length;
-        int chunkSize = (int) Math.floor((double)n / nWorkers);
-        int start = 0;
-        int end = chunkSize;
+        nWorkers = Math.min(n, nWorkers);    
+        int chunkSize = (int) Math.ceil((double) n / nWorkers);
+        int[] sumArray = new int[nWorkers];
         
-
-        
-        try {
+        Thread[] threads = new Thread[nWorkers];
         for (int i = 0; i < nWorkers; i++) {
-            if (i == nWorkers - 1) {
-                end = n;
-            }
-            this.threads = new Thread[nWorkers];
-            int finalStart = start;
-            int finalEnd = end;
+            int finalStart = i * chunkSize;
+            int finalEnd = Math.min((i + 1) * chunkSize, n);
+            final int index = i;
+        
             threads[i] = new Thread(() -> {
-                synchronized (this) {
-                int partial = partialSum(finalStart, finalEnd);
-                sum[0] += partial;
-            }});
-    
+                int partialSum = partialSum(finalStart, finalEnd);
+                synchronized (sumArray) {
+                    sumArray[index] = partialSum;
+                }
+            });
             threads[i].start();
-    
-            start = end;
-            end += chunkSize;
         }
-    
-        for (int i = 0; i < nWorkers; i++) {
-            threads[i].join();
+        
+        for (Thread thread : threads) {
+            thread.join();
         }
-    } catch (InterruptedException e) {
-        throw new InterruptedException();
-    }
-        return sum[0];
-    }
+        
+        return Arrays.stream(sumArray).sum();
+}
 
     /**
      * Implementasi
@@ -70,11 +61,9 @@ public class ArraySum {
      */
     protected int partialSum(int start, int end) {
         int sum = 0;
-
         for (int i = start; i < end; i++) {
             sum += arr[i];
         }
-
         return sum;
     }
 }
