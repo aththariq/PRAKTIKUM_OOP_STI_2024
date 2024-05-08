@@ -8,7 +8,7 @@ public class ServerDriver {
        int workers = 3;
        String[] req = {"Computer Science", "oversaturated", "distributed system", "designing data intensive application"};
        int nRequest = req.length;
-       SimpleWordCountServer server = new SimpleWordCountServer(workers);
+       Server server = new Server(workers);
 
        Integer[] expectedWordCounts = {2, 3, 2, 4};
        Integer[] actualWordCounts = server.process(req);
