@@ -1,7 +1,7 @@
 import java.util.Arrays;
 
 // Lengkapi definisi class
-public class RedAstronaut extends Player implements Impostor{
+public class RedAstronaut extends Player implements Impostor {
     // Atribut skill bertipe data String
     private String skill;
 
@@ -15,8 +15,8 @@ public class RedAstronaut extends Player implements Impostor{
 
     public RedAstronaut(String name, int susLevel, String skill) {
         // Panggil constructor dari superclass dengan parameter name dan susLevel
-        super(name, susLevel);
         // Isi variabel skill dengan parameter skill yang sudah diubah menjadi lowercase
+        super(name, susLevel);
         this.skill = skill.toLowerCase();
     }
 
@@ -31,20 +31,30 @@ public class RedAstronaut extends Player implements Impostor{
         * Tidak mengembalikan apapun
     */
     public void emergencyMeeting() {
-        if (!isFrozen()) {
-            Player highestSus = null;
-            for (Player p : getPlayers()) {
-                if (!(p instanceof Impostor) && !p.isFrozen()) {
-                    if (highestSus == null || p.compareTo(highestSus) > 0) {
-                        highestSus = p;
+        if(!(this.isFrozen())){
+            int maxsuslevel = -1;
+            int a = 0;
+            boolean adayangsama = false;
+            for(int i = 0; i < Player.getPlayers().length; i++){
+                if ((!(Player.getPlayers()[i].isFrozen())) && (Player.getPlayers()[i] != this)){
+                    if (Player.getPlayers()[i].getSusLevel() > maxsuslevel ){
+                        maxsuslevel = Player.getPlayers()[i].getSusLevel();
+                        a = i;
+                        adayangsama = false;
+                    }else if (Player.getPlayers()[i].getSusLevel() == maxsuslevel){
+                        adayangsama = true;
                     }
                 }
             }
-            if (highestSus != null) {
-                highestSus.setFrozen(true);
+
+            if ((!(adayangsama)) && (maxsuslevel != -1)){
+                Player.getPlayers()[a].setFrozen(true);
             }
-            gameOver();
+
+            this.gameOver();
         }
+
+        
     }
 
     /*
@@ -57,15 +67,13 @@ public class RedAstronaut extends Player implements Impostor{
         * Tidak mengembalikan apapun
     */
     public void freeze(Player p) {
-        if (p instanceof Crewmate || isFrozen() == false){
-            if (p.isFrozen() == false) {
-                if (getSusLevel() < p.getSusLevel()) {
-                    p.setFrozen(true);
-                } else {
-                    setSusLevel(getSusLevel() * 2);
-                }
+        if((p instanceof BlueAstronaut) && (!(this.isFrozen()))){
+            if(compareTo(p) < 0){
+                p.setFrozen(true);
+            }else{
+                setSusLevel(2 * getSusLevel());
             }
-            gameOver();
+            this.gameOver();
         }
     }
 
@@ -77,13 +85,11 @@ public class RedAstronaut extends Player implements Impostor{
         * Tidak mengembalikan apapun
     */
     public void sabotage(Player p) {
-        if (p instanceof Crewmate || isFrozen() == false){
-            if (p.isFrozen() == false){
-                if (getSusLevel() < 20) {
-                    p.setSusLevel(p.getSusLevel() + (int) Math.floor(p.getSusLevel() * 0.5));
-                } else {
-                    p.setSusLevel(p.getSusLevel() + (int) Math.floor(p.getSusLevel() * 0.25));
-                }
+        if ((!this.isFrozen()) && (p instanceof BlueAstronaut)){
+            if(getSusLevel() < 20){
+                p.setSusLevel((int) (p.getSusLevel()*1.5));
+            }else{
+                p.setSusLevel((int) (p.getSusLevel()*1.25));
             }
         }
 
@@ -94,12 +100,13 @@ public class RedAstronaut extends Player implements Impostor{
         * Mengembalikan sebuah boolean
     */
     public boolean equals(Object o) {
-        if (o instanceof RedAstronaut) {
-            RedAstronaut r = (RedAstronaut) o;
-            return getName().equals(r.getName()) && isFrozen() == r.isFrozen()
-                    && getSusLevel() == r.getSusLevel() && this.skill.equals(r.skill);
+        if (o instanceof RedAstronaut){
+            RedAstronaut objek = (RedAstronaut) o;
+            return (super.equals(o)) && (this.skill.equals(objek.skill));
         }
+        
         return false;
+        
     }
 
     /*
@@ -110,7 +117,11 @@ public class RedAstronaut extends Player implements Impostor{
         * Anda harus menggunakan metode toString() dari kelas Player.
     */
     public String toString() {
-        return getSusLevel() > 15 ? super.toString().toUpperCase() : super.toString()
-                + " I am an " + skill + " player!";
+
+        if(this.getSusLevel() > 15){
+            return (super.toString() + " I am an " + skill + " player!").toUpperCase();
+        }
+
+        return (super.toString() + " I am an " + skill + " player!");
     }
 }

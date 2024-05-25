@@ -8,7 +8,7 @@ public class BlueAstronaut extends Player implements Crewmate {
     private int taskSpeed;
 
     // Atribut untuk mengecek apakah task sudah selesai pertama kali
-    private boolean firstTimeTask;
+    private boolean taskselesai = false;
 
     // Atribut DEFAULT_NUM_TASKS bertipe data int dengan nilai 6
     private static final int DEFAULT_NUM_TASKS = 6;
@@ -19,12 +19,13 @@ public class BlueAstronaut extends Player implements Crewmate {
     public BlueAstronaut(String name) {
         // Panggil constructor dengan parameter name, DEFAULT_SUS_LEVEL, DEFAULT_NUM_TASKS, dan DEFAULT_TASK_SPEED
         this(name, DEFAULT_SUS_LEVEL, DEFAULT_NUM_TASKS, DEFAULT_TASK_SPEED);
+      
     }
 
     public BlueAstronaut(String name, int susLevel, int numTasks, int taskSpeed) {
         // Panggil constructor dari superclass dengan parameter name dan susLevel
-        super(name, susLevel);
         // Isi variabel numTasks dan taskSpeed dengan parameter yang sesuai
+        super(name, susLevel);
         this.numTasks = numTasks;
         this.taskSpeed = taskSpeed;
     }
@@ -33,20 +34,30 @@ public class BlueAstronaut extends Player implements Crewmate {
 
     */
     public void emergencyMeeting() {
-        if (!isFrozen()) {
-            Player highestSus = null;
-            for (Player p : getPlayers()) {
-                if (!(p instanceof Impostor) && !p.isFrozen()) {
-                    if (highestSus == null || p.compareTo(highestSus) > 0) {
-                        highestSus = p;
+        if(!(this.isFrozen())){
+            int maxsuslevel = -1;
+            int a = 0;
+            boolean adayangsama = false;
+            for(int i = 0; i < Player.getPlayers().length; i++){
+                if ((!(Player.getPlayers()[i].isFrozen()))){
+                    if (Player.getPlayers()[i].getSusLevel() > maxsuslevel ){
+                        maxsuslevel = Player.getPlayers()[i].getSusLevel();
+                        a = i;
+                        adayangsama = false;
+                    }else if (Player.getPlayers()[i].getSusLevel() == maxsuslevel){
+                        adayangsama = true;
                     }
                 }
             }
-            if (highestSus != null) {
-                highestSus.setFrozen(true);
+
+            if ((!(adayangsama)) && (maxsuslevel != -1)){
+                Player.getPlayers()[a].setFrozen(true);
             }
-            gameOver();
+
+            this.gameOver();
         }
+
+        
     }
 
     /*
@@ -59,21 +70,28 @@ public class BlueAstronaut extends Player implements Crewmate {
         * Tidak mengembalikan apapun.
     */
     public void completeTask() {
-        if (!isFrozen()) {
-            if (taskSpeed > 20) {
-                numTasks -= 2;
-            } else {
-                numTasks -= 1;
-            }
-            if (numTasks < 0) {
-                numTasks = 0;
-            }
-            if (numTasks == 0 && !firstTimeTask) {
+        if(!this.isFrozen()){
+            if(numTasks == 0 && (!taskselesai)){
+                this.taskselesai = true;
                 System.out.println("I have completed all my tasks");
-                setSusLevel((int) Math.floor(getSusLevel() * 0.5));
-                firstTimeTask = true;
+                this.setSusLevel((int) (getSusLevel()*0.5));
+            }else{
+                if(taskSpeed > 20){
+                    if(numTasks>=2){
+                        numTasks -= 2;
+                    }else{
+                        numTasks = 0;
+                    }
+                }else{
+                    if(numTasks>=1){
+                        numTasks -= 1;
+                    }else{
+                        numTasks = 0;
+                    }
+                }
             }
         }
+        
     }
 
     /*
@@ -81,10 +99,11 @@ public class BlueAstronaut extends Player implements Crewmate {
         * Mengembalikan sebuah boolean.
     */
     public boolean equals(Object o) {
-        if (o instanceof BlueAstronaut) {
-            BlueAstronaut b = (BlueAstronaut) o;
-            return getName().equals(b.getName()) && isFrozen() == b.isFrozen() && getSusLevel() == b.getSusLevel() && numTasks == b.numTasks && taskSpeed == b.taskSpeed;
+        if (o instanceof BlueAstronaut){
+            BlueAstronaut objek = (BlueAstronaut) o;
+            return (super.equals(o)) && (this.numTasks == objek.numTasks) && (taskSpeed == objek.taskSpeed);
         }
+        
         return false;
     }
 
@@ -96,10 +115,10 @@ public class BlueAstronaut extends Player implements Crewmate {
         * Anda harus menggunakan metode toString() dari kelas Player.
     */
     public String toString() {
-        String output = super.toString() + " I have " + numTasks + " left over.";
-        if (getSusLevel() > 15) {
-            return output.toUpperCase();
+        if(this.getSusLevel() > 15){
+            return (super.toString() + " I have " + numTasks + " left over.").toUpperCase();
         }
-        return output;
+
+        return super.toString() + " I have " + numTasks + " left over.";
     }
 }
