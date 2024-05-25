@@ -73,29 +73,30 @@ public class AccountManager {
      * @param password password dari akun baru dalam format tidak dihash
      */
     public void addAccount(String username, String password) {
-        // Validasi username
         if (!isValidUsername(username)) {
-            System.out.println("Username tidak valid\n");
+            System.out.println("Username tidak valid");
             return;
         }
-    
-        // Cek apakah username sudah digunakan
+
         for (Account account : accounts) {
             if (account.getUsername().equals(username)) {
-                System.out.println("Username telah digunakan\n");
+                System.out.println("Username telah digunakan");
                 return;
             }
         }
-    
-        // Validasi password
+
         if (!isStrongPassword(password)) {
-            System.out.println("Password tidak cukup kuat\n");
+            System.out.println("Password tidak cukup kuat");
             return;
         }
-    
-        // Jika semua validasi lulus, tambahkan akun baru
-        accounts.add(new Account(username, Ucrypt.hash(password).toString()));
-        System.out.println("Akun berhasil didaftarkan\n");
+
+        String hashedPassword = Ucrypt.hash(password).toString();
+        if (Ucrypt.compare(password, hashedPassword)) {
+            accounts.add(new Account(username, hashedPassword));
+            System.out.println("Akun berhasil didaftarkan");
+        } else {
+            System.out.println("Password tidak dapat di-hash");
+        }
     }
 
     /**

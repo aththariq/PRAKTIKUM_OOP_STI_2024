@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/PRAKTIKUM_3_Interface_and_ Polymorphism/PRAKTIKUM_3_Interface_and_ Polymorphism.iml" filepath="$PROJECT_DIR$/PRAKTIKUM_3_Interface_and_ Polymorphism/PRAKTIKUM_3_Interface_and_ Polymorphism.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PRAKTIKUM_4_Number_and_Strings/PRAKTIKUM_4_Number_and_Strings.iml" filepath="$PROJECT_DIR$/PRAKTIKUM_4_Number_and_Strings/PRAKTIKUM_4_Number_and_Strings.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PRAKTIKUM_OOP_STI_2024.iml" filepath="$PROJECT_DIR$/PRAKTIKUM_OOP_STI_2024.iml" />
+    </modules>
+  </component>
+</project>
