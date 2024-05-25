@@ -12,22 +12,22 @@ public class NumberSumII {
                     sum = temp;
                 }
             } else if (num instanceof Short) {
-                short temp = (short)(sum.shortValue() + num.shortValue());
-                if (temp < sum.shortValue() && temp < num.shortValue()) {
+                int temp = sum.shortValue() + num.shortValue();
+                if (temp > Short.MAX_VALUE) {
                     sum = Short.MAX_VALUE;
-                } else if (temp > sum.shortValue() && temp > num.shortValue()) {
+                } else if (temp < Short.MIN_VALUE) {
                     sum = Short.MIN_VALUE;
                 } else {
-                    sum = temp;
+                    sum = (short)temp;
                 }
             } else if (num instanceof Integer) {
-                int temp = sum.intValue() + num.intValue();
-                if (temp < sum.intValue() && temp < num.intValue()) {
+                long temp = (long)sum.intValue() + num.intValue();
+                if (temp > Integer.MAX_VALUE) {
                     sum = Integer.MAX_VALUE;
-                } else if (temp > sum.intValue() && temp > num.intValue()) {
+                } else if (temp < Integer.MIN_VALUE) {
                     sum = Integer.MIN_VALUE;
                 } else {
-                    sum = temp;
+                    sum = (int)temp;
                 }
             } else if (num instanceof Long) {
                 long temp = sum.longValue() + num.longValue();
@@ -40,15 +40,19 @@ public class NumberSumII {
                 }
             } else if (num instanceof Float) {
                 float temp = sum.floatValue() + num.floatValue();
-                if (Float.isInfinite(temp)) {
-                    sum = temp < 0 ? Float.MIN_VALUE : Float.MAX_VALUE;
+                if (sum.floatValue() > 0 && num.floatValue() > 0 && temp < 0) {
+                    sum = Float.MAX_VALUE;
+                } else if (sum.floatValue() < 0 && num.floatValue() < 0 && temp > 0) {
+                    sum = Float.MIN_VALUE;
                 } else {
                     sum = temp;
                 }
             } else if (num instanceof Double) {
                 double temp = sum.doubleValue() + num.doubleValue();
-                if (Double.isInfinite(temp)) {
-                    sum = temp < 0 ? Double.MIN_VALUE : Double.MAX_VALUE;
+                if (sum.doubleValue() > 0 && num.doubleValue() > 0 && temp < 0) {
+                    sum = Double.MAX_VALUE;
+                } else if (sum.doubleValue() < 0 && num.doubleValue() < 0 && temp > 0) {
+                    sum = Double.MIN_VALUE;
                 } else {
                     sum = temp;
                 }
