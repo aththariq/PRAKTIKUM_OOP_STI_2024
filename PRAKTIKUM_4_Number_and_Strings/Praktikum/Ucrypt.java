@@ -15,10 +15,10 @@ public class Ucrypt {
      * @return kata yang telah dihash
      */
 
-    public static StringBuilder hash(String word) {
+    public static String hash(String word) {
         String kata = Umandana.toUmandana(word);
         StringBuilder baru = new StringBuilder(kata);
-
+    
         int countVokal = 0;
         for (int i = 0; i < word.length(); i++) {
             char ch = Character.toLowerCase(word.charAt(i));
@@ -29,12 +29,12 @@ public class Ucrypt {
         for (int j = 0; j < baru.length(); j++) {
             char ch = baru.charAt(j);
             if (Character.isDigit(ch)) {
-                baru.setCharAt(j, (char) (((ch - '0') + 'a' + countVokal - 1) % 26 + 'a'));
+                baru.setCharAt(j, (char) (((ch - '0') + countVokal) % 26 + 'a'));
             } else if (Character.isLowerCase(ch)) {
                 baru.setCharAt(j, (char) (((ch - 'a') + countVokal) % 26 + 'a'));
             }
         }
-        return baru;
+        return baru.toString();
     }
 
     /**
