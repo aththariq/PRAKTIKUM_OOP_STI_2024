@@ -17,4 +17,8 @@ public class DelayedOutput {
         });
         thread.start();
     }
+<<<<<<< Updated upstream
 }
+=======
+  }
+>>>>>>> Stashed changes

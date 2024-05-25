@@ -6,7 +6,11 @@
 public class ServerDriver {
     public static void main(String[] args) throws InterruptedException {
        int workers = 3;
+<<<<<<< Updated upstream
        String[] req = {"Computer Science", "oversaturated", "distributed system", "designing data intensive application"};
+=======
+       String[] req = {"   Computer    Science   ", "oversaturated", "distributed system", "designing data intensive application"};
+>>>>>>> Stashed changes
        int nRequest = req.length;
        Server server = new Server(workers);
 
@@ -18,4 +22,8 @@ public class ServerDriver {
        }
        System.out.println("Tidak ada error.");
     }
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes
