@@ -32,9 +32,7 @@ public class Ucrypt {
             if (Character.isDigit(ch)) {
                 baru.setCharAt(j, (char) (((ch - '0') + countVokal) % 26 + 'a'));
             } else if (Character.isLowerCase(ch)) {
-                baru.setCharAt(j, (char) ((ch - 'a' + countVokal) % 26 + 'a'));
-            } else {
-                baru.setCharAt(j, ch);
+                baru.setCharAt(j, (char) (((ch - 'a') + countVokal) % 26 + 'a'));
             }
         }
         return baru;
