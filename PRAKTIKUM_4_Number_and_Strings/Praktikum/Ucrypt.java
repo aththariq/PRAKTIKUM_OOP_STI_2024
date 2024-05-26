@@ -18,7 +18,7 @@ public class Ucrypt {
     public static String hash(String word) {
         String kata = Umandana.toUmandana(word);
         StringBuilder baru = new StringBuilder(kata);
-    
+
         int countVokal = 0;
         for (int i = 0; i < word.length(); i++) {
             char ch = Character.toLowerCase(word.charAt(i));
@@ -29,7 +29,7 @@ public class Ucrypt {
         for (int j = 0; j < baru.length(); j++) {
             char ch = baru.charAt(j);
             if (Character.isDigit(ch)) {
-                baru.setCharAt(j, (char) (((ch - '0') + countVokal) % 26 + 'a'));
+                baru.setCharAt(j, (char) (((ch - '0') + 'a' + countVokal) % 26 + 'a'));
             } else if (Character.isLowerCase(ch)) {
                 baru.setCharAt(j, (char) (((ch - 'a') + countVokal) % 26 + 'a'));
             }
@@ -45,6 +45,6 @@ public class Ucrypt {
      * @return true apabila hashed merupakan plain yang telah dihash
      */
     public static boolean compare(String plain, String hashed) {
-        return hash(plain).toString().equals(hashed);
+        return hash(plain).equals(hashed);
     }
 }

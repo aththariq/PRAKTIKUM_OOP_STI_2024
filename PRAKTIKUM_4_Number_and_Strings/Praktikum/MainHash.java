@@ -6,9 +6,9 @@ public class MainHash {
         String awal = input.nextLine();
         input.close();
         
-        StringBuilder hash = Ucrypt.hash(awal);
-        String print = hash.toString();
+        //StringBuilder hash = Ucrypt.hash(awal);
+        //String print = hash.toString();
 
-        System.out.println(print);
+        //System.out.println(print);
     }
 }

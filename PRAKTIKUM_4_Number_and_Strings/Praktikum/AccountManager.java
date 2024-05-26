@@ -74,21 +74,24 @@ public class AccountManager {
      */
     public void addAccount(String username, String password) {
         if (!isValidUsername(username)) {
-            System.out.println("Username tidak valid\n");
+            System.out.println("Username tidak valid");
             return;
         }
+
         for (Account account : accounts) {
             if (account.getUsername().equals(username)) {
-                System.out.println("Username telah digunakan\n");
+                System.out.println("Username telah digunakan");
                 return;
             }
         }
+
         if (!isStrongPassword(password)) {
-            System.out.println("Password tidak cukup kuat\n");
+            System.out.println("Password tidak cukup kuat");
             return;
         }
+
         accounts.add(new Account(username, Ucrypt.hash(password)));
-        System.out.println("Akun berhasil didaftarkan\n");
+        System.out.println("Akun berhasil didaftarkan");
     }
 
     /**
