@@ -2,7 +2,7 @@ package LAT_UAS;
 
 public class Stack<T extends Displayable>{
     private T[] data;
-    int top;
+    private int top;
 
     @SuppressWarnings("unchecked")
     public Stack(int size) {
