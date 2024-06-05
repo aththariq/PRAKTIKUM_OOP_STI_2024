@@ -5,9 +5,14 @@ public class Stack<T extends Displayable>{
     private int top;
 
     @SuppressWarnings("unchecked")
-    public Stack(int size) {
-        this.data = (T[]) new Displayable[size];
-        this.top = 0;
+    public Stack(T[] data) {
+        this.data = data;
+        top =0;
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] != null) {
+                top++;
+            }
+        }
     }
 
     public void push(T item) throws StackOverFlowException {
